@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>cs_stream</title>
+    <link rel="stylesheet" href="./style.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.2.0/socket.io.slim.js"></script>
+    <script src="message.class.js"></script>
+</head>
+
+<body>
+    <nav>
+        <img src="logo.png" alt="" class="brand">
+    </nav>
+    <main>
+        <section data-key="2erKber" id="streamSection">
+            <div id="streamWindow">
+                
+            </div>
+        </section>
+        <section id="chatSection">
+            <div id="chatWindow">
+                <div id="chatMsgs"></div>
+                <form id="chatInput">
+                    <input type="text" name="chatMsg" id="chatMsg" style="background:rgb(251, 225, 78);border:none;">
+                    <input type="submit" value="📩" style="background:rgb(206, 175, 0);border:none;">
+                </form>
+            </div>
+        </section>
+    </main>
+    <script src="app.js"></script>
+</body>
+
+</html>
