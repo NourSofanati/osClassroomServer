@@ -23,7 +23,7 @@ nav {
 .brand {
     object-fit: contain;
     padding: 0 2vh;
-    
+
     height: 80%;
 }
 
@@ -47,13 +47,13 @@ main {
 #streamWindow {
     height: 100%;
     position: relative;
-    
+
 }
 
-#streamWindow video{
-    
+#streamWindow video {
+
     width: 100%;
-    
+
 }
 
 #chatWindow {
@@ -64,14 +64,37 @@ main {
     display: flex;
     flex-direction: column;
 }
-#chatMsgs{
+
+#chatMsgs {
     flex: 25;
+    padding: .5vh;
+    overflow-y: auto;
+    background: rgba(255, 255, 255, 0.192);
 }
-#chatMsg{
+
+#chatMsg {
     flex: 10;
+
 }
-#chatInput{
+
+#chatInput {
     flex: 1;
     display: flex;
     width: 100%;
+}
+
+.msg {
+    background: rgb(206, 175, 0);
+    padding: .5vh;
+    margin: .59vh 0;
+    border-radius: .4vh;
+}
+
+h4 {
+    text-transform: capitalize;
+    margin: 0 !important;
+}
+
+small{
+    font-size: .7rem;
 }

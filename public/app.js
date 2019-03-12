@@ -12,11 +12,15 @@ let user = 'nour_94017';
 
 chatForm.addEventListener('submit', (e) => {
     e.preventDefault();
-    sendSocket({
-        user: user,
-        msg: chatMsg.value
-    })
-    chatForm.reset();
+    if (chatMsg.value.trim()) {
+        sendSocket({
+            user: user,
+            msg: chatMsg.value.toString()
+        });
+        chatForm.reset();
+    } else {
+        alert('يتوجب عليك ارسال رسالة صحيحة');
+    }
 })
 
 socket.on('chatMsg', data => {
@@ -30,7 +34,8 @@ function renderMessage(data) {
         <p>${data.msg}</p>
         <small>${new Date(data.date).toLocaleTimeString()}</small>
     </div>
-    `
+    `;
+    chatMsgs.scrollTo(0, chatMsgs.scrollHeight);
 }
 
 function sendSocket(data) {
