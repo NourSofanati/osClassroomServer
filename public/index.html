@@ -7,6 +7,7 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>cs_stream</title>
     <link rel="stylesheet" href="./style.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/RecordRTC/5.5.4/RecordRTC.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.2.0/socket.io.slim.js"></script>
     <script src="message.class.js"></script>
 </head>
@@ -18,8 +19,14 @@
     <main>
         <section data-key="2erKber" id="streamSection">
             <div id="streamWindow">
-                
+                <video src="" id="video" controls></video>
             </div>
+            <button id="StartRecording">
+                ⏺
+            </button>
+            <button id="StopRecording">
+                🛑
+            </button>
         </section>
         <section id="chatSection">
             <div id="chatWindow">

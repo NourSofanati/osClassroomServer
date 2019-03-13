@@ -45,15 +45,12 @@ main {
 }
 
 #streamWindow {
-    height: 100%;
+    height: 80%;
     position: relative;
-
 }
 
 #streamWindow video {
-
     width: 100%;
-
 }
 
 #chatWindow {
@@ -74,7 +71,6 @@ main {
 
 #chatMsg {
     flex: 10;
-
 }
 
 #chatInput {
@@ -95,6 +91,6 @@ h4 {
     margin: 0 !important;
 }
 
-small{
+small {
     font-size: .7rem;
 }
