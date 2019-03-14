@@ -8,13 +8,16 @@ app.use('/', express.static('public'))
 
 
 io.on('connection', function (socket) {
-    console.log(socket.id+'has connected');
+    //TODO : Add listener for images for stream.
+    console.log(socket.id + ' has connected');
     socket.on('chatMsg', (chatBody) => {
         io.emit('chatMsg', chatBody);
+    })
+    socket.on('disconnect', () => {
+        console.log(socket.id + ' Has Disconnected')
     })
 });
 
 http.listen(port, function () {
     console.log('listening on *:' + port);
 });
-
