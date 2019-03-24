@@ -1,17 +1,3 @@
-const video = document.getElementById("video");
-const chatForm = document.querySelector('form');
-const chatMsg = document.querySelector('#chatMsg');
-const chatMsgs = document.querySelector('#chatMsgs');
-
-const user = 'Nour'; //prompt('Please enter your username');
-var options = {
-    rememberUpgrade: true,
-    transports: ['websocket'],
-    secure: true,
-    rejectUnauthorized: false
-}
-var socket = io.connect('localhost:3000', options);
-
 
 if (!navigator.getDisplayMedia && !navigator.mediaDevices.getDisplayMedia) {
     var error = 'Your browser does NOT support the getDisplayMedia API.';
@@ -67,20 +53,6 @@ function stopRecordingCallback() {
     document.getElementById('btn-start-recording').disabled = false;
 }
 
-
-chatForm.addEventListener('submit', (e) => {
-    e.preventDefault();
-    if (chatMsg.value.trim()) {
-        sendSocket({
-            user: user,
-            msg: chatMsg.value.toString()
-        });
-        chatForm.reset();
-    } else {
-        alert('يتوجب عليك ارسال رسالة صحيحة');
-    }
-})
-
 document.getElementById('StartRecording').onclick = function () {
     this.disabled = true;
     captureScreen(function (screen) {
@@ -99,28 +71,6 @@ document.getElementById('StopRecording').onclick = function () {
     this.disabled = true;
     recorder.stopRecording(stopRecordingCallback);
 };
-
-
-socket.on('chatMsg', data => {
-    renderMessage(data);
-})
-
-function renderMessage(data) {
-    chatMsgs.innerHTML += `
-    <div class="msg">
-        <h4>${data.user}</h4>
-        <p>${data.msg}</p>
-        <small>${new Date(data.date).toLocaleTimeString()}</small>
-    </div>
-    `;
-    chatMsgs.scrollTo(0, chatMsgs.scrollHeight);
-}
-
-function sendSocket(data) {
-    let msgOb = new MsgObject(data.user, data.msg);
-    socket.emit('chatMsg', msgOb);
-}
-
 
 function addStreamStopListener(stream, callback) {
     stream.addEventListener('ended', function () {

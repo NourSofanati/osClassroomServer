@@ -16,6 +16,9 @@ io.on('connection', function (socket) {
     socket.on('disconnect', () => {
         console.log(socket.id + ' Has Disconnected')
     })
+    socket.on('frame', (videoFrame => {
+        io.emit('frame', videoFrame);
+    }))
 });
 
 http.listen(port, function () {
