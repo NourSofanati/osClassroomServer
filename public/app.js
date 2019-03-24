@@ -28,7 +28,6 @@ function invokeGetDisplayMedia(success, error) {
     }
 }
 
-
 var recorder; // globally accessible
 
 function captureScreen(callback) {
@@ -53,7 +52,7 @@ function stopRecordingCallback() {
     document.getElementById('btn-start-recording').disabled = false;
 }
 
-document.getElementById('StartRecording').onclick = function () {
+StartRecordingBTN.onclick = function () {
     this.disabled = true;
     captureScreen(function (screen) {
         video.srcObject = screen;
@@ -67,7 +66,7 @@ document.getElementById('StartRecording').onclick = function () {
     });
 };
 
-document.getElementById('StopRecording').onclick = function () {
+StopRecordingBTN.onclick = function () {
     this.disabled = true;
     recorder.stopRecording(stopRecordingCallback);
 };
