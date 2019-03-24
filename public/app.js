@@ -1,4 +1,3 @@
-
 if (!navigator.getDisplayMedia && !navigator.mediaDevices.getDisplayMedia) {
     var error = 'Your browser does NOT support the getDisplayMedia API.';
     document.querySelector('h1').innerHTML = error;
@@ -14,12 +13,14 @@ function invokeGetDisplayMedia(success, error) {
             displaySurface: 'monitor', // monitor, window, application, browser
             logicalSurface: true,
             cursor: 'always' // never, always, motion
-        }
+        },
+        audio:{}
     };
     // above constraints are NOT supported YET
     // that's why overridnig them
     displaymediastreamconstraints = {
-        video: true
+        video: true,
+        audio: true
     };
     if (navigator.mediaDevices.getDisplayMedia) {
         navigator.mediaDevices.getDisplayMedia(displaymediastreamconstraints).then(success).catch(error);
@@ -33,7 +34,7 @@ var recorder; // globally accessible
 function captureScreen(callback) {
     invokeGetDisplayMedia(function (screen) {
         addStreamStopListener(screen, function () {
-            document.getElementById('StopRecording').click();
+            StopRecordingBTN.click();
         });
         callback(screen);
     }, function (error) {
@@ -49,7 +50,7 @@ function stopRecordingCallback() {
     recorder.screen.stop();
     recorder.destroy();
     recorder = null;
-    document.getElementById('btn-start-recording').disabled = false;
+    StartRecordingBTN.disabled = false;
 }
 
 StartRecordingBTN.onclick = function () {
@@ -57,12 +58,18 @@ StartRecordingBTN.onclick = function () {
     captureScreen(function (screen) {
         video.srcObject = screen;
         recorder = RecordRTC(screen, {
-            type: 'video'
+            type: 'video',
+            bitsPerSecond: 256 * 8 * 256,
+            timeSlice: 500,
+            preview() {
+                console.log('hey');
+                video.src = this.getArrayOfBlobs();
+            }
         });
         recorder.startRecording();
         // release screen on stopRecording
         recorder.screen = screen;
-        document.getElementById('StopRecording').disabled = false;
+        StopRecordingBTN.disabled = false;
     });
 };
 

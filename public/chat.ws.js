@@ -30,3 +30,4 @@ function sendSocket(data) {
     let msgOb = new MsgObject(data.user, data.msg);
     socket.emit('chatMsg', msgOb);
 }
+

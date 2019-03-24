@@ -4,4 +4,11 @@ class MsgObject {
         this.user = user;
         this.date = new Date();
     }
+    deleteMsg() {
+        delete this;
+    }
+    editMsg(newMsg){
+        this.msg = newMsg;
+    }
 }
+
