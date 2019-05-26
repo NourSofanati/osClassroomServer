@@ -22,7 +22,7 @@ nav {
 
 .brand {
     object-fit: contain;
-    padding: 0 2vh;
+    padding: 0 10px;
 
     height: 80%;
 }
@@ -34,14 +34,15 @@ main {
 }
 
 #streamSection {
-    flex: 4;
-    padding: 2vh;
+    flex: 3.5;
+    box-sizing: border-box;
+    padding: 20px;
 }
 
 #chatSection {
     padding-left: 0 !important;
     flex: 1;
-    padding: 2vh;
+    padding: 20px;
 }
 
 #streamWindow {
