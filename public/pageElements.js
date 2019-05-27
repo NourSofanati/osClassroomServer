@@ -1,5 +1,6 @@
 //Elements on the Page.
 const video = document.getElementById("video");
+const stream = document.getElementById("TESTTHING");
 const chatForm = document.querySelector('form');
 const chatMsg = document.querySelector('#chatMsg');
 const chatMsgs = document.querySelector('#chatMsgs');
@@ -14,4 +15,4 @@ const options = {
     secure: true,
     rejectUnauthorized: false
 }
-const socket = io.connect('localhost:3000', options);
+const socket = io.connect('192.168.1.4:3000', options);

@@ -47,6 +47,7 @@ main {
 
 #streamWindow {
     position: relative;
+    /* display: none; */
 }
 
 #streamWindow video {
@@ -93,4 +94,11 @@ h4 {
 
 small {
     font-size: .7rem;
+}
+
+
+@media only screen and (max-width: 600px) {
+    #chatWindow {
+        display: none;
+    }
 }

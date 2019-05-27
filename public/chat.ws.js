@@ -13,7 +13,14 @@ chatForm.onsubmit = (e) => {
 
 socket.on('chatMsg', data => {
     renderMessage(data);
+});
+
+var streamed = false;
+socket.on('frame', drawData => {
+    recieveDrawData(drawData);
 })
+
+
 
 function renderMessage(data) {
     chatMsgs.innerHTML += `
@@ -30,4 +37,3 @@ function sendSocket(data) {
     let msgOb = new MsgObject(data.user, data.msg);
     socket.emit('chatMsg', msgOb);
 }
-

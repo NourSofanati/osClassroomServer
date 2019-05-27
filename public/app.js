@@ -1,3 +1,5 @@
+let stopped = false;
+
 if (!navigator.getDisplayMedia && !navigator.mediaDevices.getDisplayMedia) {
     var error = 'Your browser does NOT support the getDisplayMedia API.';
     document.querySelector('h1').innerHTML = error;
@@ -14,7 +16,7 @@ function invokeGetDisplayMedia(success, error) {
             logicalSurface: true,
             cursor: 'always' // never, always, motion
         },
-        audio:{}
+        audio: {}
     };
     // above constraints are NOT supported YET
     // that's why overridnig them
@@ -29,7 +31,8 @@ function invokeGetDisplayMedia(success, error) {
     }
 }
 
-var recorder; // globally accessible
+var recorder; // globally accessible.
+var audio_recorder; // globally accessible.
 
 function captureScreen(callback) {
     invokeGetDisplayMedia(function (screen) {
@@ -46,42 +49,47 @@ function captureScreen(callback) {
 function stopRecordingCallback() {
     video.src = video.srcObject = null;
     video.src = URL.createObjectURL(recorder.getBlob());
-
+    stopped = true;
     recorder.screen.stop();
     recorder.destroy();
     recorder = null;
     StartRecordingBTN.disabled = false;
 }
-
 StartRecordingBTN.onclick = function () {
     this.disabled = true;
     captureScreen(function (screen) {
         video.srcObject = screen;
+        video.play();
+        console.log(screen);
         recorder = RecordRTC(screen, {
             type: 'video',
+            mimeType: 'video/webm;codecs=vp9',
             bitsPerSecond: 256 * 8 * 256,
-            timeSlice: 500,
-            preview() {
-                console.log('hey');
-                video.src = this.getArrayOfBlobs();
-            }
+            timeSlice: 1000,
         });
+        //looper();
         recorder.startRecording();
+
         // release screen on stopRecording
+        //TODO: CHANGE  RECORDER SCREEN TO AN ALERT OF BEING ONLINE
         recorder.screen = screen;
         StopRecordingBTN.disabled = false;
     });
+
 };
 
 StopRecordingBTN.onclick = function () {
     this.disabled = true;
     recorder.stopRecording(stopRecordingCallback);
+
+    //recorder.destroy();
 };
 
 function addStreamStopListener(stream, callback) {
     stream.addEventListener('ended', function () {
         callback();
         callback = function () {};
+        socket.emit('stopStream');
     }, false);
     stream.addEventListener('inactive', function () {
         callback();
@@ -97,4 +105,23 @@ function addStreamStopListener(stream, callback) {
             callback = function () {};
         }, false);
     });
+}
+var canvas = document.getElementById('canvas'); //document.createElement('canvas');
+var context = canvas.getContext('2d');
+video.addEventListener('play', function () {
+    sendDrawData(this);
+}, false);
+
+function sendDrawData(video) {
+    context.drawImage(video, 0, 0);
+    let frame = canvas.toDataURL();
+    socket.emit('frame', frame);
+    if (!stopped) setTimeout(sendDrawData, 10, video);
+}
+var img = new Image(window.screen.width, window.screen.height);
+var streamContext = stream.getContext('2d');
+
+function recieveDrawData(frame) {
+    img.src = frame;
+    streamContext.drawImage(img, 0, 0);
 }
