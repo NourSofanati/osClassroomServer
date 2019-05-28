@@ -12,14 +12,12 @@ if (!navigator.getDisplayMedia && !navigator.mediaDevices.getDisplayMedia) {
 function invokeGetDisplayMedia(success, error) {
     var displaymediastreamconstraints = {
         video: {
-            displaySurface: 'monitor', // monitor, window, application, browser
+            displaySurface: 'monitor',
             logicalSurface: true,
-            cursor: 'always' // never, always, motion
+            cursor: 'always'
         },
         audio: {}
     };
-    // above constraints are NOT supported YET
-    // that's why overridnig them
     displaymediastreamconstraints = {
         video: true,
         audio: true
@@ -64,25 +62,17 @@ StartRecordingBTN.onclick = function () {
         recorder = RecordRTC(screen, {
             type: 'video',
             mimeType: 'video/webm;codecs=vp9',
-            bitsPerSecond: 256 * 8 * 256,
-            timeSlice: 1000,
         });
-        //looper();
         recorder.startRecording();
-
-        // release screen on stopRecording
-        //TODO: CHANGE  RECORDER SCREEN TO AN ALERT OF BEING ONLINE
         recorder.screen = screen;
         StopRecordingBTN.disabled = false;
     });
-
 };
 
 StopRecordingBTN.onclick = function () {
     this.disabled = true;
     recorder.stopRecording(stopRecordingCallback);
-
-    //recorder.destroy();
+    recorder.destroy();
 };
 
 function addStreamStopListener(stream, callback) {
@@ -106,22 +96,34 @@ function addStreamStopListener(stream, callback) {
         }, false);
     });
 }
+
+
 var canvas = document.getElementById('canvas'); //document.createElement('canvas');
+canvas.height = stream.height = 1080;
+canvas.width = stream.width = 1920;
 var context = canvas.getContext('2d');
 video.addEventListener('play', function () {
     sendDrawData(this);
 }, false);
 
 function sendDrawData(video) {
-    context.drawImage(video, 0, 0);
+    context.drawImage(video,
+        0, 0,
+        1920, 1080,
+        0, 0,
+        1280, 720);
     let frame = canvas.toDataURL();
     socket.emit('frame', frame);
-    if (!stopped) setTimeout(sendDrawData, 10, video);
+    if (!stopped) window.setTimeout(sendDrawData,66, video);
 }
-var img = new Image(window.screen.width, window.screen.height);
+var img = new Image(1280, 720);
 var streamContext = stream.getContext('2d');
 
 function recieveDrawData(frame) {
     img.src = frame;
-    streamContext.drawImage(img, 0, 0);
+    streamContext.drawImage(img,
+        0, 0,
+        1280, 720,
+        0, 0,
+        1280, 720);
 }

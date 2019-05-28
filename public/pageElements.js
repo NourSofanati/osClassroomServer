@@ -15,4 +15,4 @@ const options = {
     secure: true,
     rejectUnauthorized: false
 }
-const socket = io.connect('192.168.1.4:3000', options);
+const socket = io.connect('192.168.1.3:3000', options);

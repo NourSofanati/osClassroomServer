@@ -47,7 +47,7 @@ main {
 
 #streamWindow {
     position: relative;
-    /* display: none; */
+    display: none;
 }
 
 #streamWindow video {
@@ -86,7 +86,7 @@ main {
     margin: .59vh 0;
     border-radius: .4vh;
 }
-
+    
 h4 {
     text-transform: capitalize;
     margin: 0 !important;
@@ -96,9 +96,4 @@ small {
     font-size: .7rem;
 }
 
-
-@media only screen and (max-width: 600px) {
-    #chatWindow {
-        display: none;
-    }
-}
+#THIS
